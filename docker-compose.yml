@@ -35,7 +35,7 @@ services:
       - gitlab_logs:/var/log/gitlab
       - gitlab_data:/var/opt/gitlab
   maroonalpha:
-    image: dockers/maroonalpha
+    build: dockers/maroonalpha
     ports:
       - "8080"
     privileged: true
