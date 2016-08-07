@@ -20,13 +20,22 @@ services:
     image: emorymerryman/cloud9:0.0.1
     ports:
       - "8080"
+    volumes:
+      - gnupg:/root/.gnupg
+      - ssh:/root/.ssh
   maroonalpha:
     image: emorymerryman/cloud9:0.0.1
     ports:
       - "8080"
     volumes:
+      - gnupg:/root/.gnupg
+      - ssh:/root/.ssh
       - maroonalpha:/maroonalpha
+    command: --listen 0.0.0.0 -p 8080 -w /maroonalpha --auth user:password
   cloud9:
     image: emorymerryman/cloud9:0.0.1
     volumes:
+      - gnupg:/root/.gnupg
+      - ssh:/root/.ssh
       - cloud9:/cloud9
+    command: --listen 0.0.0.0 -p 8080 -w /cloud9 --auth user:password
