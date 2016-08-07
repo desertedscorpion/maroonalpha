@@ -21,6 +21,7 @@ services:
     ports:
       - "8080"
     volumes:
+      - personal:/root
       - bin:/workspace/bin
     command: --listen 0.0.0.0 -p 8080 -w /workspace/bin --auth user:password
   gitlab:
