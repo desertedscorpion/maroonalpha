@@ -1,41 +1,45 @@
 version: '2'
 volumes:
-  gnupg:
-  ssh:
-  password-store:
+  personal:
+  gitlab_config:
+  gitlab_logs:
+  gitlab_data:
   maroonalpha:
   cloud9:
 services:
-  volume-master:
-    image: emorymerryman/cloud9:0.0.1
-    ports:
-      - "8080"
-    volumes:
-      - gnupg:/srv/gnupg
-      - ssh:/srv/ssh
-      - password-store:/srv/password-store
-      - maroonalpha:/srv/maroonalpha
-      - cloud9:/srv/cloud9
   personal:
-    image: emorymerryman/cloud9:0.0.1
+    build: dockers/personal
     ports:
       - "8080"
     volumes:
-      - gnupg:/root/.gnupg
-      - ssh:/root/.ssh
+      - personal:/root
+    links:
+      - gitlab
+  gitlab:
+    image: gitlab/gitlab-ce:8.10.4-ce.0
+    ports:
+      - "443"
+      - "80"
+      - "22"
+    volumes:
+      - gitlab_config:/etc/gitlab
+      - gitlab_logs:/var/log/gitlab
+      - gitlab_data:/var/opt/gitlab
   maroonalpha:
     image: emorymerryman/cloud9:0.0.1
     ports:
       - "8080"
     volumes:
-      - gnupg:/root/.gnupg
-      - ssh:/root/.ssh
+      - personal:/root
       - maroonalpha:/maroonalpha
+    links:
+      - gitlab
     command: --listen 0.0.0.0 -p 8080 -w /maroonalpha --auth user:password
   cloud9:
     image: emorymerryman/cloud9:0.0.1
     volumes:
-      - gnupg:/root/.gnupg
-      - ssh:/root/.ssh
+      - personal:/root
       - cloud9:/cloud9
+    links:
+      - gitlab
     command: --listen 0.0.0.0 -p 8080 -w /cloud9 --auth user:password
