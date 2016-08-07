@@ -2,4 +2,5 @@ version: '2'
 services:
   volume-master:
     build: dockers/volume-master
-    ports: 8080
+    ports:
+      - "8080"
