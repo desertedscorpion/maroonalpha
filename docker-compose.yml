@@ -35,7 +35,7 @@ services:
       - gitlab_logs:/var/log/gitlab
       - gitlab_data:/var/opt/gitlab
   maroonalpha:
-    image: emorymerryman/cloud9:0.0.1
+    image: dockers/maroonalpha
     ports:
       - "8080"
     privileged: true
