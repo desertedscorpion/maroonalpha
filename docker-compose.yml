@@ -1,0 +1,58 @@
+version: '2'
+volumes:
+  personal:
+  bin:
+  gitlab_config:
+  gitlab_logs:
+  gitlab_data:
+  maroonalpha:
+  cloud9:
+services:
+  personal:
+    build: dockers/personal
+    ports:
+      - "8080"
+    privileged: true
+    volumes:
+      - /var/run/docker.sock:/var/run/docker.sock
+      - personal:/root
+    links:
+      - gitlab
+  bin:
+    image: emorymerryman/cloud9:0.0.1
+    ports:
+      - "8080"
+    volumes:
+      - personal:/root
+      - bin:/workspace/bin
+    command: --listen 0.0.0.0 -p 8080 -w /workspace/bin --auth user:password
+  gitlab:
+    image: gitlab/gitlab-ce:8.10.4-ce.0
+    ports:
+      - "443"
+      - "80"
+      - "22"
+    volumes:
+      - gitlab_config:/etc/gitlab
+      - gitlab_logs:/var/log/gitlab
+      - gitlab_data:/var/opt/gitlab
+  maroonalpha:
+    build: dockers/maroonalpha
+    ports:
+      - "8080"
+    privileged: true
+    volumes:
+      - /var/run/docker.sock:/var/run/docker.sock
+      - personal:/root
+      - maroonalpha:/workspace/maroonalpha
+    links:
+      - gitlab
+    command: --listen 0.0.0.0 -p 8080 -w /workspace/maroonalpha --auth user:password
+  cloud9:
+    image: emorymerryman/cloud9:0.0.1
+    volumes:
+      - personal:/root
+      - cloud9:/workspace/cloud9
+    links:
+      - gitlab
+    command: --listen 0.0.0.0 -p 8080 -w /workspace/cloud9 --auth user:password
