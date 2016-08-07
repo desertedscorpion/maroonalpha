@@ -1,6 +1,32 @@
 version: '2'
+volumes:
+  gnupg:
+  ssh:
+  password-store:
+  maroonalpha:
+  cloud9:
 services:
   volume-master:
-    build: dockers/volume-master
+    image: emorymerryman/cloud9:0.0.1
     ports:
       - "8080"
+    volumes:
+      - gnupg:/srv/gnupg
+      - ssh:/srv/ssh
+      - password-store:/srv/password-store
+      - maroonalpha:/srv/maroonalpha
+      - cloud9:/srv/cloud9
+  personal:
+    image: emorymerryman/cloud9:0.0.1
+    ports:
+      - "8080"
+  maroonalpha:
+    image: emorymerryman/cloud9:0.0.1
+    ports:
+      - "8080"
+    volumes:
+      - maroonalpha:/maroonalpha
+  cloud9:
+    image: emorymerryman/cloud9:0.0.1
+    volumes:
+      - cloud9:/cloud9
