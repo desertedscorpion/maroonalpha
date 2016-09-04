@@ -8,6 +8,7 @@ volumes:
   maroonalpha:
   cloud9:
   deciphernow:
+  send-data-volumes:
 services:
   personal:
     build: dockers/personal
@@ -49,6 +50,17 @@ services:
     links:
       - gitlab
     command: --listen 0.0.0.0 -p 8080 -w /workspace/maroonalpha --auth user:password
+  send-data-volumes:
+    build: dockers/send-data-volumes
+    ports:
+      - "8080"
+    privileged: true
+    volumes:
+      - /var/run/docker.sock:/var/run/docker.sock
+      - personal:/root
+      - send-data-volumes:/workspace/send-data-volumes
+    links:
+      - gitlab
   cloud9:
     image: emorymerryman/cloud9:0.0.1
     volumes:
