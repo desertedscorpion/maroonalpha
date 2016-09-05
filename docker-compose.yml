@@ -50,6 +50,21 @@ services:
     links:
       - gitlab
     command: --listen 0.0.0.0 -p 8080 -w /workspace/maroonalpha --auth user:password
+  sender:
+    build: dockers/sender
+  receiver:
+    build: dockers/receiver
+    ports:
+     - "22"
+    volumes:
+      - personal:/volumes/personal
+      - bin:/volumes/bin
+      - gitlab_config:/volumes/gitlab_config
+      - gitlab_logs:/volumes/gitlab_logs
+      - maroonalpha:/volumes/maroonalpha
+      - cloud9:/volumes/cloud9
+      - deciphernow:/volumes/deciphernow
+      - send-data-volumes:/volumes/send-data-volumes
   send-data-volumes:
     build: dockers/send-data-volumes
     ports:
