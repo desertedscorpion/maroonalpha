@@ -8,7 +8,6 @@ volumes:
   maroonalpha:
   cloud9:
   deciphernow:
-  send-data-volumes:
 services:
   personal:
     build: dockers/personal
@@ -50,8 +49,6 @@ services:
     links:
       - gitlab
     command: --listen 0.0.0.0 -p 8080 -w /workspace/maroonalpha --auth user:password
-  sender:
-    build: dockers/sender
   receiver:
     build: dockers/receiver
     ports:
