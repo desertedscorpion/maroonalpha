@@ -61,7 +61,6 @@ services:
       - maroonalpha:/volumes/maroonalpha
       - cloud9:/volumes/cloud9
       - deciphernow:/volumes/deciphernow
-      - send-data-volumes:/volumes/send-data-volumes
   send-data-volumes:
     build: dockers/send-data-volumes
     ports:
